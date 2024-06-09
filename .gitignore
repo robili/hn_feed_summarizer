@@ -1,7 +1,8 @@
 keys.py
 rss.xml
-hnsum.xml
+hnrsum.xml
 .DS_Store
 __pycache__/
 *.pyc
 *.py[cod]
+hnrsum.xml

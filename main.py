@@ -14,6 +14,7 @@ openai.api_key = keys.token
 class feed_sum:
     max_posts = 0
     feed_file_name = './hnrsum.xml'
+    entry_log_list = './hnr_entries.log'
     url = None
     feed = None
     new_feed_name = None
@@ -45,6 +46,12 @@ class feed_sum:
             
             print(entry['title'])
 
+            if self._check_if_entry_in_log(entry['title']):
+                print('Already processed.')
+                continue
+            else:
+                self._write_entry_to_log(entry['title'])
+
             summarized_text = self._summarize(entry['link'])
 
             title = entry.get('title','No title')
@@ -62,6 +69,18 @@ class feed_sum:
         self._write_feed()
         self._upload_file()
 
+
+    def _write_entry_to_log(self, entry):
+        with open(self.entry_log_list, 'a+') as file:
+            file.seek(0)
+            file.write(entry + '\n')
+    
+
+    def _check_if_entry_in_log(self, entry) -> bool:
+        with open(self.entry_log_list, 'r') as file:
+            processed_strings = file.read().splitlines()
+            return entry in processed_strings
+        
 
     def _read_feed(self):
         if debug: print(inspect.currentframe().f_code.co_name)
@@ -153,5 +172,5 @@ class feed_sum:
 
 
 if __name__ == '__main__':
-    fd = feed_sum('https://news.ycombinator.com/rss','hnrss', 'summarized', keys.destination_file, 'Description', 'en')
+    fd = feed_sum('https://news.ycombinator.com/rss','hnrss', 'summarized', keys.destination_file, 'Description', 'en', 5)
     fd.process_feed()
