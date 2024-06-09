@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from feedgen.feed import FeedGenerator
 import ftplib
 import inspect
+import sys
 
 debug = False
 screen = False
@@ -172,5 +173,9 @@ class feed_sum:
 
 
 if __name__ == '__main__':
-    fd = feed_sum('https://news.ycombinator.com/rss','hnrss', 'summarized', keys.destination_file, 'Description', 'en', 5)
+    if len(sys.argv) > 1:
+        posts = int(sys.argv[1])
+    else:
+        posts = 20
+    fd = feed_sum('https://news.ycombinator.com/rss','hnrss', 'summarized', keys.destination_file, 'Description', 'en', 20)
     fd.process_feed()
