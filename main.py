@@ -177,5 +177,5 @@ if __name__ == '__main__':
         posts = int(sys.argv[1])
     else:
         posts = 20
-    fd = feed_sum('https://news.ycombinator.com/rss','hnrss', 'summarized', keys.destination_file, 'Description', 'en', 20)
+    fd = feed_sum('https://news.ycombinator.com/rss','hnrss', 'summarized', keys.destination_file, 'Description', 'en', posts)
     fd.process_feed()
